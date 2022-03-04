@@ -5,6 +5,12 @@ using todo_ASP.NET.Dtos;
 using System.Collections.Generic;
 using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Microsoft.Extensions.Configuration;
+using System.Security.Claims;
+using System.IdentityModel.Tokens.Jwt;
 //using Microsoft.Extensions.Configuration;
 
 namespace todo_ASP.NET.Controllers
@@ -14,11 +20,70 @@ namespace todo_ASP.NET.Controllers
     public class TodoController: ControllerBase
     {
         private readonly IDataRepository _dataRepository;
-        public TodoController(IDataRepository dataRepository)
+        private readonly IConfiguration _configuration;
+        public TodoController(IDataRepository dataRepository, IConfiguration config)
         {
             _dataRepository = dataRepository;
+            _configuration = config;
         }
 
+        [AllowAnonymous]
+        [HttpPost("login")]
+        public async Task<IActionResult> Login(UserDto userLogin)
+        {
+
+            Console.WriteLine(userLogin.Email != null ? userLogin.Email : "no email");
+            Console.WriteLine(userLogin.Password != null ? userLogin.Password : "no password");
+            try
+            {
+                User user = await Authenticate(userLogin);
+
+                if (user != null && user.Password == userLogin.Password)
+                {
+                    string token = Generate(user);
+                    return Ok(token);
+                }
+                return NotFound();
+            }catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        private async Task<User> Authenticate(UserDto userLogin)
+        {
+            User user = await _dataRepository.GetUser(userLogin);
+
+            if (user != null )
+            {
+                return user;
+            }
+            return null;
+        }
+
+        private string Generate(User user)
+        {
+            SymmetricSecurityKey securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
+            SigningCredentials credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+            var claims = new[]
+            {
+                new Claim(ClaimTypes.NameIdentifier, user.UserName),
+                new Claim(ClaimTypes.Email, user.Email)
+            };
+
+            JwtSecurityToken token = new JwtSecurityToken(
+                _configuration["Jwt:Issuer"],
+                _configuration["Jwt:Audience"],
+                claims,
+                expires: DateTime.Now.AddMinutes(15),
+                signingCredentials: credentials
+                );
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+        [Authorize]
         [HttpGet("projects/{userId}")]
         public async Task<ActionResult<IEnumerable<Project>>> GetProjects(int userId)
         {
@@ -38,6 +103,7 @@ namespace todo_ASP.NET.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet("get-project/{projectId}")]
         public async Task<ActionResult<Project>> GetProject(int projectId)
         {
@@ -56,6 +122,7 @@ namespace todo_ASP.NET.Controllers
             }
         }
 
+        [Authorize]
         [HttpPost("create-project")]
         public async Task<ActionResult<Project>> AddProject(ProjectDto project)
         {
@@ -77,6 +144,7 @@ namespace todo_ASP.NET.Controllers
             
         }
 
+        [Authorize]
         [HttpDelete("delete-project/{projectId}")]
         public async Task<ActionResult> DeleteProject(int projectId)
         {
@@ -97,6 +165,7 @@ namespace todo_ASP.NET.Controllers
             }
         }
 
+        [Authorize]
         [HttpPut("put-project")]
         public async Task<ActionResult<Project>> PutProject(Project upProject)
         {
@@ -122,6 +191,7 @@ namespace todo_ASP.NET.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet("tasks/{projectId}")]
         public async Task<ActionResult<IEnumerable<Task_>>> GetTasks(int projectId)
         {
@@ -142,6 +212,7 @@ namespace todo_ASP.NET.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet("get-task/{taskId}")]
         public async Task<ActionResult<Task_>> GetTask(int taskId)
         {
@@ -161,6 +232,7 @@ namespace todo_ASP.NET.Controllers
             }
         }
 
+        [Authorize]
         [HttpPost("create-task")]
         public async Task<ActionResult<Task_>> AddTask(TaskDto task)
         {
@@ -182,6 +254,7 @@ namespace todo_ASP.NET.Controllers
             }
         }
 
+        [Authorize]
         [HttpDelete("delete-task/{taskId}")]
         public async Task<ActionResult> DeleteTask(int taskId)
         {
@@ -201,6 +274,7 @@ namespace todo_ASP.NET.Controllers
 
         }
 
+        [Authorize]
         [HttpPut("put-task")]
         public async Task<ActionResult<Task_>> PutTask(Task_ upTask)
         {

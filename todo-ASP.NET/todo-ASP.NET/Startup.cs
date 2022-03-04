@@ -12,6 +12,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using DbUp;
 using todo_ASP.NET.Data;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace todo_ASP.NET
 {
@@ -27,6 +31,21 @@ namespace todo_ASP.NET
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options => {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = false,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = Configuration["Jwt:Issuer"],
+                    ValidAudience = Configuration["Jet:Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(
+                        Encoding.UTF8.GetBytes(Configuration["Jwt:Key"])
+                        )
+                };
+                
+            });
             // Responsible for migrating changes into the database
             String connectionString = Configuration.GetConnectionString("DefaultConnection");
             Console.WriteLine(connectionString);
@@ -46,7 +65,9 @@ namespace todo_ASP.NET
             }
 
             services.AddScoped<IDataRepository, DataRepository>();
+            //services.AddMvc();
             services.AddControllers();
+
 
         }
 
@@ -56,6 +77,8 @@ namespace todo_ASP.NET
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseAuthentication();
 
             app.UseAuthorization();
 

@@ -16,9 +16,16 @@ namespace todo_ASP.NET.Data
         {
             _connectionString = configuration["ConnectionStrings:DefaultConnection"];
         }
-        public async Task<User> GerUser()
+        public async Task<User> GetUser(UserDto userLogin)
         {
-            throw new NotImplementedException();
+            Console.WriteLine(userLogin.Email != null ? userLogin.Email : "no email");
+            Console.WriteLine(userLogin.Password != null ? userLogin.Password : "no password");
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                User user = await connection.QueryFirstAsync<User>(@"exec Get_User @Email = @Email", new { Email = userLogin.Email });
+                return user;
+            }
         }
 
         public async Task<IEnumerable<Project>> GetProjects(int userId)

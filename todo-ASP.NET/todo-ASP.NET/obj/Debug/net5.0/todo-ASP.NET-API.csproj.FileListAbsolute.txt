@@ -55,3 +55,4 @@ C:\Users\arcmi\Documents\CRUD projects built\todo-ASP.NET\todo-ASP.NET\bin\Debug
 C:\Users\arcmi\Documents\CRUD projects built\todo-ASP.NET\todo-ASP.NET\bin\Debug\net5.0\runtimes\win-x86\native\sni.dll
 C:\Users\arcmi\Documents\CRUD projects built\todo-ASP.NET\todo-ASP.NET\bin\Debug\net5.0\runtimes\unix\lib\netcoreapp2.1\System.Data.SqlClient.dll
 C:\Users\arcmi\Documents\CRUD projects built\todo-ASP.NET\todo-ASP.NET\bin\Debug\net5.0\runtimes\win\lib\netcoreapp2.1\System.Data.SqlClient.dll
+C:\Users\arcmi\Documents\CRUD projects built\todo-ASP.NET\todo-ASP.NET\bin\Debug\net5.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll

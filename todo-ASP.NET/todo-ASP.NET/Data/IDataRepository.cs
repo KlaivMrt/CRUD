@@ -19,7 +19,7 @@ namespace todo_ASP.NET.Data
         Task<int> DeleteTask(int projectId);
         Task<Task_> PutTask(Task_ task);
 
-        Task<User> GerUser();
+        Task<User> GetUser(UserDto user);
 
     }
 }
