@@ -18,8 +18,6 @@ namespace todo_ASP.NET.Data
         }
         public async Task<User> GetUser(UserDto userLogin)
         {
-            Console.WriteLine(userLogin.Email != null ? userLogin.Email : "no email");
-            Console.WriteLine(userLogin.Password != null ? userLogin.Password : "no password");
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 await connection.OpenAsync();

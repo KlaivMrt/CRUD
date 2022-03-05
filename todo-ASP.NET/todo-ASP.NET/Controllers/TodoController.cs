@@ -11,7 +11,6 @@ using System.Text;
 using Microsoft.Extensions.Configuration;
 using System.Security.Claims;
 using System.IdentityModel.Tokens.Jwt;
-//using Microsoft.Extensions.Configuration;
 
 namespace todo_ASP.NET.Controllers
 {
@@ -32,8 +31,6 @@ namespace todo_ASP.NET.Controllers
         public async Task<IActionResult> Login(UserDto userLogin)
         {
 
-            Console.WriteLine(userLogin.Email != null ? userLogin.Email : "no email");
-            Console.WriteLine(userLogin.Password != null ? userLogin.Password : "no password");
             try
             {
                 User user = await Authenticate(userLogin);
