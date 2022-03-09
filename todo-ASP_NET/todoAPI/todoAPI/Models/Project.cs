@@ -12,7 +12,6 @@ namespace todoAPI.Models
         public int Id { get; set; }
 
         [Required]
-        [ForeignKey("FK_User")]
         public int UserId{ get; set; }
 
         [Required]
@@ -27,7 +26,6 @@ namespace todoAPI.Models
         [DefaultValue(0)]
         public int Completed { get; set; }
 
-        [DefaultValue(null)]
         [MaxLength(150)]
         public string Notes { get; set; }
 
@@ -35,7 +33,5 @@ namespace todoAPI.Models
         public DateTime CreatedDateTime { get; set; }
 
         public DateTime CompletedDateTime { get; set; }
-
-        public List<Task_> Tasks { get; set; }
     }
 }

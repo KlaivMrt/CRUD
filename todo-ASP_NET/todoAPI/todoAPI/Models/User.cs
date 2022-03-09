@@ -19,7 +19,5 @@ namespace todoAPI.Models
         [Required]
         [MinLength(10)]
         public string Email { get; set; }
-
-        public List<Project> Projects { get; set; }
     }
 }

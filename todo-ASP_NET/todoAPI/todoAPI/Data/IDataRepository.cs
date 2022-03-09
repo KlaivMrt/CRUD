@@ -7,19 +7,15 @@ namespace todoAPI.Data
 {
     public interface IDataRepository
     {
-        //------------------------------------------------------------------------------------
-        // User
-        //------------------------------------------------------------------------------------
-        Task<User> GetUser();
-        Task<User> CreatUser();
 
         //------------------------------------------------------------------------------------
         // Project
         //------------------------------------------------------------------------------------
         Task<IEnumerable<Project>> GetProjects(int userId);
         Task<Project> GetProject(int projectId);
-        Task<Project> AddProject(ProjectDto newProject);
+        Task<int> DeleteAllProjects(int userId);
         Task<int> DeleteProject(int projectId);
+        Task<Project> AddProject(ProjectDto newProject);
         Task<Project> PutProject(Project currentProject);
 
         //------------------------------------------------------------------------------------
@@ -27,8 +23,13 @@ namespace todoAPI.Data
         //------------------------------------------------------------------------------------
         Task<IEnumerable<Task_>> GetTasks(int projectId);
         Task<Task_> GetTask(int taskId);
-        Task<Task> AddTask(TaskDto newTask);
+        Task<int> DeleteAllTasks(int projectId);
         Task<int> DeleteTask(int taskId);
-        Task<Task_> PutTask(Task_ task);
+        Task<Task_> AddTask(TaskDto newTask);
+        Task<Task_> PutTask(Task_ currentTask);
+
+        //------------------------------------------------------------------------------------
+        // UserEvents
+        //------------------------------------------------------------------------------------
     }
 }

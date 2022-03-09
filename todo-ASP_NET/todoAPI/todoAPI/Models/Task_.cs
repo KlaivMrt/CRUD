@@ -11,7 +11,6 @@ namespace todoAPI.Models
         public int Id { get; set; }
 
         [Required]
-        [ForeignKey("FK_Project")]
         public int ProjectId { get; set; }
 
         [Required]

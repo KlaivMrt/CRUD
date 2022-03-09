@@ -11,7 +11,7 @@ namespace todoAPI.Dtos
 
         [Required]
         [MinLength(6)]
-        public string Password { get; set; }
+        public string UserPassword { get; set; }
 
         [Required]
         [MinLength(10)]
