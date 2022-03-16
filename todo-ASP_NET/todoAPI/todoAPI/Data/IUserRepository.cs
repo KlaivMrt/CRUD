@@ -11,6 +11,7 @@ namespace todoAPI.Data
         //------------------------------------------------------------------------------------
         // User
         //------------------------------------------------------------------------------------
+        Task<User> GetUser(UserLoginDto userLogin);
         Task<User> GetUser(UserDto userLogin);
         Task<User> CreatUser(UserDto newUser);
         Task<int> DeleteUser(string email);

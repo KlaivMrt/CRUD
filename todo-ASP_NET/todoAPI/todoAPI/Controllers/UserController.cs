@@ -32,7 +32,7 @@ namespace todoAPI.Controllers
         // -------------------------- Get -------------------------- //
 
         [HttpPost("sign-in")]
-        public async Task<ActionResult<AuthDto>> SignIn(UserDto userLogin)
+        public async Task<ActionResult<AuthDto>> SignIn(UserLoginDto userLogin)
         {
             try
             {
@@ -115,7 +115,7 @@ namespace todoAPI.Controllers
 
         // -------------------------- JWT -------------------------- //
 
-        private async Task<User> Authenticate(UserDto userLogin)
+        private async Task<User> Authenticate(UserLoginDto userLogin)
         {
             try
             {

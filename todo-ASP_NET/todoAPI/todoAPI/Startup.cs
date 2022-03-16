@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.Net.Http.Headers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,6 +32,7 @@ namespace todoAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options => {
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
@@ -80,7 +82,11 @@ namespace todoAPI
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
+            app.UseCors(
+                     options => options.WithOrigins("http://localhost:3000", "https://localhost:3000")
+                     .AllowAnyHeader()
+                     .AllowAnyMethod()
+                     .AllowCredentials());
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

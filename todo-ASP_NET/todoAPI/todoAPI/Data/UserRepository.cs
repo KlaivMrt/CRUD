@@ -20,6 +20,16 @@ namespace todoAPI.Data
         //------------------------------------------------------------------------------------
 
         // -------------------------- Get -------------------------- //
+        public async Task<User> GetUser(UserLoginDto userLogin)
+        {
+            using (SqlConnection connection = new SqlConnection(_connectionString))
+            {
+                await connection.OpenAsync();
+                User user = await connection.QueryFirstOrDefaultAsync<User>(@"exec Get_User @Email = @Email", new { Email = userLogin.Email });
+                return user;
+            }
+        }
+
         public async Task<User> GetUser(UserDto userLogin)
         {
             using (SqlConnection connection = new SqlConnection(_connectionString))

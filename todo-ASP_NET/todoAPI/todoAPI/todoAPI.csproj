@@ -5,6 +5,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="SQLScripts\Script0001-Tables.sql" />
+    <None Remove="SQLScripts\Script0002-Procedures.sql" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="SQLScripts\Script0001-Tables.sql" />
+    <EmbeddedResource Include="SQLScripts\Script0002-Procedures.sql" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
     <PackageReference Include="Dapper" Version="2.0.123" />
     <PackageReference Include="dbup" Version="4.5.0" />

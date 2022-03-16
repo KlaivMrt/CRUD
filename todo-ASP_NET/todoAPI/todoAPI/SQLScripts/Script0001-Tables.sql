@@ -8,7 +8,7 @@
 create table Projects(
 	Id int not null identity(1,1) primary key,
 	UserId int not null,
-	ProjectName varchar(50) constraint CN_Projects_PN check(len(ProjectName) > 4),
+	ProjectName  varchar(50) not null constraint CN_Projects_PN check(len(ProjectName) > 4),
 	Active int not null default(1),
 	Completed int not null default(0),
 	Notes varchar(150),
@@ -49,7 +49,7 @@ create table UserEvents(
 		on delete cascade
 );
 
-/*
+
 insert into Users (UserName, UserPassword, Email)
 	values('Nickolas', '123456', 'nic01@gmail.com'),
 		  ('Elais', '123456', 'elais02@gmail.com'),
@@ -77,4 +77,4 @@ values (1, 'World War I', '2022-03-07 15:00:00'),
 	(7, 'derivatives', '2022-03-07 15:00:00'),
 	(8, 'woork meeting', '2022-03-07 15:00:00'),
 	(9, 'buy a snipper', '2022-03-07 15:00:00');
-	*/
+	
