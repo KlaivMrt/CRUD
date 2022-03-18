@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -58,6 +59,7 @@ namespace todoAPI.Controllers
 
         // -------------------------- Add -------------------------- //
 
+        [EnableCors]
         [HttpPost("sign-up")]
         public async Task<ActionResult<AuthDto>> SignUp(UserDto newUser)
         {

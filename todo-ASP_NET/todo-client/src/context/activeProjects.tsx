@@ -13,6 +13,10 @@ const activeProjects = createSlice({
     name: "activeProjects",
     initialState,
     reducers: {
+        setActiveProjects: (state, action: PayloadAction<ProjectModel[]>) =>{
+            state.value = action.payload;
+        },
+
         addActiveProject: (state, action: PayloadAction<ProjectModel>) =>{
             state.value.push(action.payload);
         },
@@ -23,5 +27,5 @@ const activeProjects = createSlice({
     }
 });
 
-export const {addActiveProject, removeActiveProject} = activeProjects.actions;
+export const {setActiveProjects, addActiveProject, removeActiveProject} = activeProjects.actions;
 export default activeProjects.reducer;

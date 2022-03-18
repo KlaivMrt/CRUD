@@ -1,4 +1,9 @@
 import React, { useState } from "react";
+import {setUser} from "../context/user";
+import {useNavigate} from "react-router-dom"
+import {useDispatch} from "react-redux";
+//import {RootState} from "../store/store"
+
 
 interface IBody{
     UserPassword: string;
@@ -8,6 +13,11 @@ interface IBody{
 const Login: React.FC = () => {
     const [email, setEmail] = useState<string>("");
     const [password, setPasswor] = useState<string>("");
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+
+    //const context = useSelector((state: RootState) => state.userReducer.value);
+
 
     const signIn = async () => {
         const Body: IBody = {
@@ -19,17 +29,20 @@ const Login: React.FC = () => {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
-                "Access-Control-Allow-Origin": "*"
             },
             body: JSON.stringify(Body)
         });
 
         const user = await responce.json();
-        console.log(user);
+        //console.log(user);
+        dispatch(setUser(user));
+    
+        // console.log(context);
+        navigate("/home/active")
     }
 
     return(
-        <div>
+        <div id="login">
             <form>
             <input placeholder={"Email"}
             onChange={(e) => {

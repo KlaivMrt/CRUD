@@ -1,5 +1,4 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import { act } from "react-dom/test-utils";
 import {UserModel} from "../data/models"
 
 interface IState{
@@ -8,11 +7,11 @@ interface IState{
 
 const initialState: IState = {
     value: {
-        Id: -1,
-        UserName: "None",
-        UserPassword: "None",
-        Email: "None",
-        Jwt: "None"
+        id: -1,
+        userName: "None",
+        userPassword: "None",
+        email: "None",
+        jwt: "None"
     }
 }
 

@@ -13,6 +13,10 @@ const archivedProjects = createSlice({
     name: "archivedProjects",
     initialState,
     reducers: {
+        setArchivedProjects: (state, action: PayloadAction<ProjectModel[]>) =>{
+            state.value = action.payload;
+        },
+
         addArchivedProject: (state, action: PayloadAction<ProjectModel>) =>{
             state.value.push(action.payload);
         },
@@ -23,5 +27,5 @@ const archivedProjects = createSlice({
     }
 });
 
-export const {addArchivedProject, removeArchivedProject} = archivedProjects.actions;
+export const {setArchivedProjects, addArchivedProject, removeArchivedProject} = archivedProjects.actions;
 export default archivedProjects.reducer;

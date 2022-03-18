@@ -66,14 +66,27 @@ namespace todoAPI
                 Console.WriteLine("ok");
             }
 
+            services.AddCors(options =>
+                options.AddDefaultPolicy(builder =>
+                {
+                    builder.AllowAnyOrigin();
+                    builder.AllowAnyHeader();
+                    builder.AllowAnyMethod();
+                })
+            );
+
             services.AddControllers();
             services.AddScoped<IDataRepository, DataRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.UseCors();
+
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -82,11 +95,7 @@ namespace todoAPI
             app.UseHttpsRedirection();
 
             app.UseRouting();
-            app.UseCors(
-                     options => options.WithOrigins("http://localhost:3000", "https://localhost:3000")
-                     .AllowAnyHeader()
-                     .AllowAnyMethod()
-                     .AllowCredentials());
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
